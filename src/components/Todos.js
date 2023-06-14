@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TodoForm from "./TodoForm";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { markCompleted, deleteTodo } from "../store/actions/todoActions";
+import {
+  getTodos,
+  markCompleted,
+  deleteTodo,
+} from "../store/actions/todoActions";
 
-const Todos = ({ todos, markCompleted, deleteTodo }) => {
+const Todos = ({ getTodos, todos, markCompleted, deleteTodo }) => {
+  // get Todos
+  useEffect(() => {
+    getTodos();
+    console.log("dang test useEffect");
+  }, []);
+
   return (
     <div className="todo-list">
       <TodoForm />
@@ -26,6 +36,7 @@ const Todos = ({ todos, markCompleted, deleteTodo }) => {
 
 Todos.prototype = {
   todos: PropTypes.array.isRequired,
+  getTodos: PropTypes.func.isRequired,
   markCompleted: PropTypes.func.isRequired,
   deleteTodo: PropTypes.func.isRequired,
 };
@@ -33,4 +44,8 @@ Todos.prototype = {
 const mapStateToProps = (state) => ({
   todos: state.myTodos.todos,
 });
-export default connect(mapStateToProps, { markCompleted, deleteTodo })(Todos);
+export default connect(mapStateToProps, {
+  markCompleted,
+  getTodos,
+  deleteTodo,
+})(Todos);

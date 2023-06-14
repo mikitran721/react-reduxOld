@@ -1,15 +1,24 @@
+import { ADD_TODO, MARK_COMPLETED, DELETE_TODO, GET_TODOS } from "../types";
+
 const initialState = {
-  todos: [
+  /* todos: [
     { id: 1, title: "Viec 1", completed: false },
     { id: 2, title: "Viec 2", completed: false },
     { id: 3, title: "Viec 3", completed: false },
     { id: 4, title: "Viec 4", completed: false },
-  ],
+  ], */
+  todos: [],
 };
 
 const todoReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "MARK_COMPLETED":
+    case GET_TODOS: {
+      return {
+        ...state,
+        todos: action.payload,
+      };
+    }
+    case MARK_COMPLETED:
       // thay doi state o day - ko dc thay doi truc tiep state
       return {
         ...state,
@@ -20,14 +29,14 @@ const todoReducer = (state = initialState, action) => {
           return todo;
         }),
       };
-    case "ADD_TODO":
+    case ADD_TODO:
       let todoCopy = state.todos;
       todoCopy.unshift(action.payload);
       return {
         ...state,
         todos: [...todoCopy],
       };
-    case "DELETE_TODO":
+    case DELETE_TODO:
       return {
         todos: state.todos.filter((todo) => todo.id !== action.payload),
       };
